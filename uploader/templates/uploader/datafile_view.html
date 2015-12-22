@@ -1,0 +1,7 @@
+{% include "uploader/header.html" %}
+
+{% for files in datafiles %}
+
+<p>{{files.uploaddate}}: <a href="{% url 'datafile' files.id %}">{{files.name}}</a></p>
+
+{% endfor %}

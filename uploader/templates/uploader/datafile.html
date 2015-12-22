@@ -1,0 +1,73 @@
+{% include "uploader/header.html" %}
+
+<style type="text/css">
+    .columnhover {background-color: #F1F1F1;}
+    .columnselect {
+    	background-color: #CECEF6;
+    	font-weight: bold;
+    }
+</style>
+
+<script type="text/javascript">
+    $(document).ready(function($)
+    {
+        $('tr th,td').hover(function()
+        {
+            var columnNum = $(this).parent('tr').children().index($(this));
+            var $wholeColumn =  $(this).parents('table').find('td:nth-child(' + (columnNum + 1) + ')');
+            $wholeColumn.addClass('columnhover');
+        },
+        function()
+        {
+            $('table').find('td').removeClass('columnhover');
+        });
+
+        $('tr th,td').click(function()
+        {
+        	var columnNum = $(this).parent('tr').children().index($(this));
+            var $wholeColumn =  $(this).parents('table').find('td:nth-child(' + (columnNum + 1) + ')');
+        	if (!($(this).hasClass('columnselect'))) {            	
+            	$wholeColumn.addClass('columnselect');
+            } else {
+            	$wholeColumn.removeClass('columnselect');
+            }
+        });
+    });
+</script>
+
+<h2>Contents of file: {{ datafile.name }}</h2>
+<br>
+<p>
+<form action="{% url 'transactions:gettrans' %}" method="post" enctype="multipart/form-data">
+	{% csrf_token %}
+	<input type="hidden" value="{{ datafile.parseddata }}" name="datafile"/>
+	<input type="submit" value="Categorize Transactions" />
+</form>
+<br>
+<button id="tbview" style="display:none;">Table View</button>
+<button id="edview">Edit View</button>
+
+<div id="tabledata">
+	<table id="tbcontent">
+		{{ datafile.parseddata|safe }}
+	</table>
+</div>
+
+<div id="editdata" style="display:none;">
+	<textarea rows=40 cols=210>
+		{{ datafile.parseddata|safe }}
+	</textarea>
+</div>
+
+<script>
+	$("#edview").click(function() {
+		$('#tabledata').find('table').replaceWith('<textarea rows=40 cols=210 id="tbedit">' + $('#tbcontent').text() + '</textarea>');
+		$("#tbview").show()
+		$("#edview").hide()
+	});
+	$('#tbview').click(function() {
+		$('#tabledata').find('textarea').replaceWith('<table id="tbcontent">' + $('#tbedit').html()+ '</table>');
+		$("#edview").show()
+		$("#tbview").hide()
+	});
+</script>
