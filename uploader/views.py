@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.views.generic import FormView, DetailView, ListView
-from .forms import DataFileForm
+from .forms import DataFileForm, EditDataForm
 from .models import Sourcefile
 import csv, re
 
@@ -20,6 +20,14 @@ def tableize(inputfile):
 		output = output + line
 
 	return output
+
+def edit_data(request):
+	if request.method == 'POST':
+		post_text = request.POST.get('editdata')
+		return HttpResponse(tableize(post_text))
+	else:
+		return HttpResponse('Invalid Request Type')
+		
 
 class UploadFileView(FormView):
 	template_name = 'uploader/add/index.html'
@@ -40,12 +48,18 @@ class DataFileDetailView(DetailView):
 	template_name = 'uploader/datafile.html'
 	context_object_name = 'datafile'
 
-	def get_object(self):
-		object = super(DataFileDetailView, self).get_object()
-		object.parseddata = object.readfile()
-		object.save()
-		object.parseddata = tableize(object.readfile())
-		return object
+	def  get_context_data(self, **kwargs):
+		context = super(DataFileDetailView, self).get_context_data(**kwargs)
+		source_file = super(DataFileDetailView, self).get_object()
+		source_file.parseddata = source_file.readfile()
+		source_file.save()
+
+		context['filename'] = source_file.name
+		context['htmldata'] = tableize(source_file.readfile())
+		context['csvdata'] = source_file.parseddata
+		context['form'] = EditDataForm()
+
+		return context
 
 
 class DataFileIndexView(ListView):

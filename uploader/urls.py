@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     url(
         r'^uploaded/(?P<pk>\d+)/$', DataFileDetailView.as_view(),
         name='datafile'),
+    url(r'^edit_data/$', views.edit_data, name='edit_data'),
 
 ) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

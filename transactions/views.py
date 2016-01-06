@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.generic import FormView
-from .forms import GetTransactionsForm
+#from .forms import GetTransactionsForm
 
 # Create your views here.
 def index(request):
@@ -20,9 +20,3 @@ def gettrans(request):
 	}
 	return render(request, "transactions/gettrans.html", context)
 
-#class GetTransView(FormView):
-#	template_name = 'transactions/gettrans.html'
-#	form_class = GetTransactionsForm
-#
-#	def form_valid(self, form):
-#		rawfile = self.get_form_kwargs().get('files')['datafile']	
