@@ -8,7 +8,6 @@
     }
 </style>
 
-
 <h2>Contents of file: {{ filename }}</h2> 
 <br>
 <p>
@@ -19,18 +18,23 @@
 </form>
 <br>
 
-<!-- <form action="{% url 'uploader:edit_data' %}" id="edit-data-form" method="post" enctype="multipart/form-data">  -->
-<form id="edit-data-form" method="POST">	
-	{% csrf_token %}
-	<input type="hidden" value="{{ csvdata }}" id="editdata"/> 
-	{{ form.text }}
-	<input type="submit" value="Edit Data" />
-</form>
-
 <div id="tabledata">
+	<button id="editmode">Edit Mode</button>
 	<table id="tbcontent">
 		{{ htmldata|safe }}
 	</table>
+</div> 
+
+<div id="edittabledata" style="display: none;">
+	<form id="edit-data-form" method="POST">	
+		{% csrf_token %}
+		<input type="submit" value="Submit Changes" />
+		<button id="cancel">Cancel</button>
+	</form>	
+
+	<textarea rows="60" cols="200" id="editdata" form="edit-data-form">
+		{{ csvdata }}	
+	</textarea>
 </div>
 
 <script src="/static/scripts/uploader.js"></script>

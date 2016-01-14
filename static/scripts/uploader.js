@@ -1,9 +1,12 @@
-	/*$("#edview").click(function() {
-		if ( $('#tabledata').find('table').length )
-			$('#tabledata').find('table').replaceWith('<textarea rows=40 cols=210 id="tbedit">' + `{{ csvdata }}` + '</textarea>');
-		else
-			$('#tabledata').find('textarea').replaceWith('<table id="tbcontent">' + `{{ htmldata|safe }}` + '</table>');
-	});*/
+$("#editmode").click(function() {
+	$("#tabledata").hide();
+	$("#edittabledata").show();
+});
+
+$("#cancel").click(function() {
+	$("#tabledata").show();
+	$("#edittabledata").hide();
+});
 
 $(document).ready(function($)
   {
@@ -32,12 +35,10 @@ $(document).ready(function($)
 
 $('#edit-data-form').on('submit', function(event){
 	event.preventDefault();
-	console.log("form submitted")
 	edit_data();
 });
 
 function edit_data() {
-	console.log("edit data now!")
 	console.log($('#editdata').val())
 	$.ajax({
 		url : "/upload/edit_data/", // the endpoint
@@ -46,9 +47,8 @@ function edit_data() {
 
 		// handle a successful response
 		success : function(text) {
-			$('#editdata').val(''); // remove the value from the input
+			//$('#editdata').val(''); // remove the value from the input
 			console.log(text); // log the returned json to the console
-			console.log("success"); // another sanity check
 		},
 
 		// handle a non-successful response

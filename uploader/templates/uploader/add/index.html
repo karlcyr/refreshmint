@@ -3,7 +3,7 @@
 <h2>Feed me your transaction data!</h2>
 <p>Upload your data file: </p>
 {% block content %}
-<form action="{% url "data_file_upload" %}" method="post" enctype="multipart/form-data">
+<form action="{% url "uploader:data_file_upload" %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="submit" />

@@ -6,10 +6,6 @@ from .forms import DataFileForm, EditDataForm
 from .models import Sourcefile
 import csv, re
 
-# Create your views here.
-#def index(request):
-#	return HttpResponse("Upload page")
-
 def tableize(inputfile):
 	fileiter = inputfile.splitlines()	
 	output = ""

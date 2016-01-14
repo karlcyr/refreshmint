@@ -2,6 +2,6 @@
 
 {% for files in datafiles %}
 
-<p>{{files.uploaddate}}: <a href="{% url 'datafile' files.id %}">{{files.name}}</a></p>
+<p>{{files.uploaddate}}: <a href="{% url 'uploader:datafile' files.id %}">{{files.name}}</a></p>
 
 {% endfor %}
